@@ -74,6 +74,14 @@ module read_data#(
 
 	// Row/Column index of the image
 	reg [9:0] row; 
-	reg [10:0] column; 
+	reg [10:0] column;
+
+	// Temporary storage
+	integer temp_Memory [0:IMAGE_WIDTH * IMAGE_HEIGHT * 3 - 1];
+	integer storage_R [0:IMAGE_WIDTH * IMAGE_HEIGHT- 1]; 	
+	integer storage_G [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];	
+	integer storage_B [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];
+
+	 
 
 endmodule					
