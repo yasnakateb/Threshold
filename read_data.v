@@ -67,5 +67,8 @@ module read_data#(
 	reg [8:0] vsync_Counter;			
 	reg [8:0] hsync_Counter;
 	reg [18:0] data_Counter; 		
-	
+
+
+	reg [31:0] memory_32_Bit [0:image_Size/4]; 	
+	reg [7:0] memory_8_Bit [0:image_Size-1];	
 endmodule					
