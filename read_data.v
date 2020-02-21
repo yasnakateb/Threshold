@@ -52,8 +52,8 @@ module read_data#(
 	localparam	STATE_HORIZONTAL_SYNC = 2'b10;			
 	localparam	STATE_DATA_PROCESSING = 2'b11;	
 
-	parameter data_Width = 8;						
-	parameter image_Size = 1179648; 
+	parameter DATA_WIDTH = 8;						
+	parameter IMAGE_SIZE = 1179648; 
 
 	reg sig_Start;	
     // Create start signal								
@@ -69,8 +69,8 @@ module read_data#(
 	reg [18:0] data_Counter; 		
 
 
-	reg [31:0] memory_32_Bit [0:image_Size/4]; 	
-	reg [7:0] memory_8_Bit [0:image_Size-1];	
+	reg [31:0] memory_32_Bit [0:IMAGE_SIZE/4]; 	
+	reg [7:0] memory_8_Bit [0:IMAGE_SIZE-1];	
 
 	// Row/Column index of the image
 	reg [9:0] row; 
@@ -89,7 +89,5 @@ module read_data#(
     // Temporary variables
 	integer value1;
 	integer value2;
-
-
 
 endmodule					
