@@ -63,4 +63,9 @@ module read_data#(
 	reg sig_Ctrl_Hsync;	
 	reg sig_Ctrl_Data;											
 
+	// Counters
+	reg [8:0] vsync_Counter;			
+	reg [8:0] hsync_Counter;
+	reg [18:0] data_Counter; 		
+	
 endmodule					
