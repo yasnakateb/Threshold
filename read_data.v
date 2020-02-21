@@ -71,4 +71,9 @@ module read_data#(
 
 	reg [31:0] memory_32_Bit [0:image_Size/4]; 	
 	reg [7:0] memory_8_Bit [0:image_Size-1];	
+
+	// Row/Column index of the image
+	reg [9:0] row; 
+	reg [10:0] column; 
+
 endmodule					
