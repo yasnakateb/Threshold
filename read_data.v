@@ -82,6 +82,14 @@ module read_data#(
 	integer storage_G [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];	
 	integer storage_B [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];
 
-	 
+	// Counting variables
+    integer i;
+	integer j;
+
+    // Temporary variables
+	integer value1;
+	integer value2;
+
+
 
 endmodule					
