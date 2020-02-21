@@ -51,5 +51,8 @@ module read_data#(
 	localparam	STATE_VERTICAL_SYNC	= 2'b01;			
 	localparam	STATE_HORIZONTAL_SYNC = 2'b10;			
 	localparam	STATE_DATA_PROCESSING = 2'b11;	
-	
+
+	parameter data_Width = 8;						
+	parameter image_Size = 1179648; 
+
 endmodule					
