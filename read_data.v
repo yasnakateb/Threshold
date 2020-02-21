@@ -45,5 +45,11 @@ module read_data#(
 
 	reg [1:0] current_STATE;						
 	reg [1:0] next_STATE;
+
+	// Parameters for FSM
+	localparam	STATE_IDLE 	= 2'b00;		
+	localparam	STATE_VERTICAL_SYNC	= 2'b01;			
+	localparam	STATE_HORIZONTAL_SYNC = 2'b10;			
+	localparam	STATE_DATA_PROCESSING = 2'b11;	
 	
 endmodule					
