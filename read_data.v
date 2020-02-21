@@ -55,4 +55,12 @@ module read_data#(
 	parameter data_Width = 8;						
 	parameter image_Size = 1179648; 
 
+	reg sig_Start;	
+    // Create start signal								
+	reg sig_Delayed_Reset;	
+	// Control signal for counters
+	reg sig_Ctrl_Vsync; 
+	reg sig_Ctrl_Hsync;	
+	reg sig_Ctrl_Data;											
+
 endmodule					
