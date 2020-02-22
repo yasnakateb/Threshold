@@ -2,15 +2,15 @@
 
 module read_data#(
     parameter 
-            INPUT_FILE  = "input_picture.hex",  
-            IMAGE_WIDTH = 768,                  
-            IMAGE_HEIGHT = 512,
-            // Delay during start up time                       
-            STATEART_DELAY = 100,
-            // Delay between Horizontal synchronous pulses                  
-            HORIZONTAL_SYNC_DELAY = 160,
-            // Threshold value for Threshold operation                  
-            THRESHOLD= 90                       
+        INPUT_FILE  = "input_picture.hex",  
+        IMAGE_WIDTH = 768,                  
+        IMAGE_HEIGHT = 512,
+        // Delay during start up time                       
+        STATEART_DELAY = 100,
+        // Delay between Horizontal synchronous pulses                  
+        HORIZONTAL_SYNC_DELAY = 160,
+        // Threshold value for Threshold operation                  
+        THRESHOLD= 90                       
     )
     (
         clk,                                                
