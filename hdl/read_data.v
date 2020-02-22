@@ -90,6 +90,27 @@ module read_data#(
     integer value1;
     integer value2;
 
+    initial begin
+        $readmemh(INPUT_FILE, memory_8_Bit, 0, IMAGE_SIZE-1); 
+    end
+    
+    always@(sig_Start) begin
+        if(sig_Start == 1'b1) begin
+            for(i = 0; i< IMAGE_WIDTH * IMAGE_HEIGHT * 3 ; i = i + 1) begin
+                temp_Memory[i] = memory_8_Bit[i + 0][7:0]; 
+            end
+            
+            for(i = 0; i < IMAGE_HEIGHT; i = i + 1) begin
+                for(j = 0; j < IMAGE_WIDTH; j = j + 1) begin
+                    storage_Red[IMAGE_WIDTH * i + j] = temp_Memory[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - i - 1) + 3 * j + 0]; 
+                    storage_Green[IMAGE_WIDTH * i + j] = temp_Memory[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - i - 1) + 3 * j + 1];
+                    storage_Blue[IMAGE_WIDTH * i + j] = temp_Memory[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - i - 1) + 3 * j + 2];
+                end
+            end
+        end
+    end
+
+
 
 
 
