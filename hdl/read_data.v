@@ -78,9 +78,9 @@ module read_data#(
 
     // Temporary storage
     integer temp_Memory [0:IMAGE_WIDTH * IMAGE_HEIGHT * 3 - 1];
-    integer storage_R [0:IMAGE_WIDTH * IMAGE_HEIGHT- 1];    
-    integer storage_G [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];   
-    integer storage_B [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];
+    integer storage_Red [0:IMAGE_WIDTH * IMAGE_HEIGHT- 1];    
+    integer storage_Green [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];   
+    integer storage_Blue [0:IMAGE_WIDTH * IMAGE_HEIGHT - 1];
 
     // Counting variables
     integer i;
@@ -89,5 +89,10 @@ module read_data#(
     // Temporary variables
     integer value1;
     integer value2;
+
+
+
+
+
 
 endmodule                   
