@@ -49,6 +49,14 @@ module write_data
     integer i;
     integer k, l, m;
     integer fd; 
+
+    wire done_Flag;                                                 
+    
+    // Temporary memory 
+    reg [7:0] output_Bmp  [0 : IMAGE_WIDTH * IMAGE_HEIGHT * 3 - 1];        
+    reg [18:0] data_Counter;                 
+    
+    
                                         
 
 endmodule
