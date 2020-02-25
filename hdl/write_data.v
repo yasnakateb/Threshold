@@ -41,6 +41,8 @@ module write_data
 
     // Header for bmp image
     parameter BMP_HEADER_NUMBER = 54; 
-                                        
+    
+    // BMP header
+    integer bmp_Header [0 : BMP_HEADER_NUMBER - 1];                                            
 
 endmodule
