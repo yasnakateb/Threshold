@@ -2,9 +2,6 @@
  * Verilog cannot read bitmap format file. So we will convert the image in 
  * bitmap format into hexadecimal file
  */
-
-
-
 module read_data#(
     parameter 
         INPUT_FILE  = "input_picture.hex",  
