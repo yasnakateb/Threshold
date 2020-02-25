@@ -111,8 +111,7 @@ module read_data#(
     end
 
 
-    always@(posedge clk, negedge reset)
-    begin
+    always@(posedge clk, negedge reset) begin
         if(!reset) begin
             sig_Start <= 0;
             sig_Delayed_Reset <= 0;
@@ -125,6 +124,18 @@ module read_data#(
                 sig_Start <= 1'b0;
         end
     end
+
+
+    always@(posedge clk, negedge reset) begin
+        if(~reset) begin
+            current_STATE <= STATE_IDLE;
+        end
+        else begin
+            current_STATE <= next_STATE; 
+        end
+    end
+
+    
 
 
 
