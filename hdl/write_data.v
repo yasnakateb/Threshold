@@ -58,16 +58,16 @@ module write_data
 
 
     initial begin
-        bmp_Header[ 0] = 66;bmp_Header[18] =  0; bmp_Header[36] = 0; 
-        bmp_Header[ 1] = 77;bmp_Header[19] =  3; bmp_Header[37] = 0; 
-        bmp_Header[ 2] = 54;bmp_Header[20] =  0; bmp_Header[38] = 0; 
-        bmp_Header[ 3] =  0;bmp_Header[21] =  0; bmp_Header[39] = 0; 
-        bmp_Header[ 4] = 18;bmp_Header[22] =  0; bmp_Header[40] = 0;                                       
-        bmp_Header[ 5] =  0;bmp_Header[23] =  2; bmp_Header[41] = 0; 
-        bmp_Header[ 6] =  0;bmp_Header[24] =  0; bmp_Header[42] = 0; 
-        bmp_Header[ 7] =  0;bmp_Header[25] =  0; bmp_Header[43] = 0; 
-        bmp_Header[ 8] =  0;bmp_Header[26] =  1; bmp_Header[44] = 0;
-        bmp_Header[ 9] =  0;bmp_Header[27] =  0; bmp_Header[45] = 0;
+        bmp_Header[0]  = 66;bmp_Header[18] =  0; bmp_Header[36] = 0; 
+        bmp_Header[1]  = 77;bmp_Header[19] =  3; bmp_Header[37] = 0; 
+        bmp_Header[2]  = 54;bmp_Header[20] =  0; bmp_Header[38] = 0; 
+        bmp_Header[3]  =  0;bmp_Header[21] =  0; bmp_Header[39] = 0; 
+        bmp_Header[4]  = 18;bmp_Header[22] =  0; bmp_Header[40] = 0;                                       
+        bmp_Header[5]  =  0;bmp_Header[23] =  2; bmp_Header[41] = 0; 
+        bmp_Header[6]  =  0;bmp_Header[24] =  0; bmp_Header[42] = 0; 
+        bmp_Header[7]  =  0;bmp_Header[25] =  0; bmp_Header[43] = 0; 
+        bmp_Header[8]  =  0;bmp_Header[26] =  1; bmp_Header[44] = 0;
+        bmp_Header[9]  =  0;bmp_Header[27] =  0; bmp_Header[45] = 0;
         bmp_Header[10] = 54;bmp_Header[28] = 24; bmp_Header[46] = 0;
         bmp_Header[11] =  0;bmp_Header[29] =  0; bmp_Header[47] = 0;
         bmp_Header[12] =  0;bmp_Header[30] =  0; bmp_Header[48] = 0;
@@ -77,6 +77,26 @@ module write_data
         bmp_Header[16] =  0;bmp_Header[34] =  0; bmp_Header[52] = 0;
         bmp_Header[17] =  0;bmp_Header[35] =  0; bmp_Header[53] = 0;
     end
+
+
+    // Row and Column counting for temporary memory of image 
+    always@(posedge clk, negedge reset) begin
+        if(!reset) begin
+            l <= 0;
+            m <= 0;
+        end 
+        else begin
+            if(horizontal_Pulse) begin
+                if(m == IMAGE_WIDTH/2-1) begin
+                    m <= 0;
+                    l <= l + 1; 
+                end else begin
+                    m <= m + 1; 
+                end
+            end
+        end
+    end
+    
 endmodule                           
 
 
