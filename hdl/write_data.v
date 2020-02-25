@@ -39,4 +39,8 @@ module write_data
 
     output reg sig_Write_Done;
 
+    // Header for bmp image
+    parameter BMP_HEADER_NUMBER = 54; 
+                                        
+
 endmodule
