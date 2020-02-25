@@ -4,13 +4,7 @@ module read_data#(
     parameter 
         INPUT_FILE  = "input_picture.hex",  
         IMAGE_WIDTH = 768,                  
-        IMAGE_HEIGHT = 512,
-        // Delay during start up time                       
-        STATEART_DELAY = 100,
-        // Delay between Horizontal synchronous pulses                  
-        HORIZONTAL_SYNC_DELAY = 160,
-        // Threshold value for Threshold operation                  
-        THRESHOLD= 90                       
+        IMAGE_HEIGHT = 512
     )
     (
         clk,                                                
@@ -54,6 +48,12 @@ module read_data#(
 
     parameter DATA_WIDTH = 8;                       
     parameter IMAGE_SIZE = 1179648; 
+    // Delay during start up time                       
+    parameter    STATEART_DELAY = 100;
+    // Delay between Horizontal synchronous pulses                  
+    parameter    HORIZONTAL_SYNC_DELAY = 160;
+    // Threshold value for Threshold operation                  
+    parameter    THRESHOLD= 90 ;                      
 
     reg sig_Start;  
     // Create start signal                              
@@ -111,7 +111,20 @@ module read_data#(
     end
 
 
-
+    always@(posedge clk, negedge reset)
+    begin
+        if(!reset) begin
+            sig_Start <= 0;
+            sig_Delayed_Reset <= 0;
+        end
+        else begin                                        
+            sig_Delayed_Reset <= reset;                                 
+            if(reset == 1'b1 && sig_Delayed_Reset == 1'b0)        
+                sig_Start <= 1'b1;
+            else
+                sig_Start <= 1'b0;
+        end
+    end
 
 
 
