@@ -1,5 +1,3 @@
-`include "definition_file.v" 
-
 module read_data#(
     parameter 
         INPUT_FILE  = "input_picture.hex",  
@@ -46,14 +44,14 @@ module read_data#(
     localparam  STATE_HORIZONTAL_SYNC = 2'b10;          
     localparam  STATE_DATA_PROCESSING = 2'b11;  
 
-    parameter DATA_WIDTH = 8;                       
+    parameter DATA_IMAGE_WIDTH = 8;                       
     parameter IMAGE_SIZE = 1179648; 
     // Delay during start up time                       
-    parameter    STATEART_DELAY = 100;
+    parameter STATEART_DELAY = 100;
     // Delay between Horizontal synchronous pulses                  
-    parameter    HORIZONTAL_SYNC_DELAY = 160;
+    parameter HORIZONTAL_SYNC_DELAY = 160;
     // Threshold value for Threshold operation                  
-    parameter    THRESHOLD= 90 ;                      
+    parameter THRESHOLD= 90 ;                      
 
     reg sig_Start;  
     // Create start signal                              
@@ -193,8 +191,7 @@ module read_data#(
     end
 
     
-    always@(posedge clk, negedge reset)
-    begin
+    always@(posedge clk, negedge reset) begin
         if(~reset) begin
             vsync_Counter <= 0;
             hsync_Counter <= 0;
@@ -249,7 +246,5 @@ module read_data#(
 
 
     
-
-
 
 endmodule                   
