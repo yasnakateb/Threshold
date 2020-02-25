@@ -172,6 +172,46 @@ module read_data#(
     end
 
 
+    always @(*) begin
+        sig_Ctrl_Vsync = 0;
+        sig_Ctrl_Hsync = 0;
+        sig_Ctrl_Data  = 0;
+        case(current_STATE)
+            STATE_VERTICAL_SYNC:   
+                begin 
+                    sig_Ctrl_Vsync = 1; 
+                end   
+            STATE_HORIZONTAL_SYNC:   
+                begin 
+                    sig_Ctrl_Hsync = 1; 
+                end   
+            STATE_DATA_PROCESSING:    
+                begin 
+                    sig_Ctrl_Data = 1; 
+                end   
+        endcase
+    end
+
+    
+    always@(posedge clk, negedge reset)
+    begin
+        if(~reset) begin
+            vsync_Counter <= 0;
+            hsync_Counter <= 0;
+        end
+        else begin
+            if(sig_Ctrl_Vsync)
+                vsync_Counter <= vsync_Counter + 1; 
+            else 
+                vsync_Counter <= 0;
+                
+            if(sig_Ctrl_Hsync)
+                hsync_Counter <= hsync_Counter + 1;   
+            else
+                hsync_Counter <= 0;
+        end
+    end
+
 
 
 endmodule                   
