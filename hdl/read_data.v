@@ -17,7 +17,7 @@ module read_data#(
         data_Blue_Odd,
         vertical_Pulse,                         
         horizontal_Pulse,                           
-        done_Flag                   
+        sig_done                   
     );
 
     input clk;
@@ -35,7 +35,7 @@ module read_data#(
     output vertical_Pulse;  
     // Horizontal synchronous pulse                         
     output reg horizontal_Pulse;                        
-    output done_Flag;
+    output sig_done;
 
     reg [1:0] current_STATE;                        
     reg [1:0] next_STATE;
@@ -90,10 +90,12 @@ module read_data#(
     integer value1;
     integer value2;
 
+
     initial begin
         $readmemh(INPUT_FILE, memory_8_Bit, 0, IMAGE_SIZE-1); 
     end
     
+
     always@(sig_Start) begin
         if(sig_Start == 1'b1) begin
             for(i = 0; i< IMAGE_WIDTH * IMAGE_HEIGHT * 3 ; i = i + 1) begin
@@ -135,7 +137,39 @@ module read_data#(
         end
     end
 
-    
+
+    always @(*) begin
+        case(current_STATE)
+            STATE_IDLE: begin
+                if(sig_Start)
+                    next_STATE = STATE_VERTICAL_SYNC;
+                else
+                    next_STATE = STATE_IDLE;
+            end         
+            STATE_VERTICAL_SYNC: begin
+                if(vsync_Counter == sig_Delayed_Reset) 
+                    next_STATE = STATE_HORIZONTAL_SYNC;
+                else
+                    next_STATE = STATE_VERTICAL_SYNC;
+            end
+            STATE_HORIZONTAL_SYNC: begin
+                if(hsync_Counter == HORIZONTAL_SYNC_DELAY) 
+                    next_STATE = STATE_DATA_PROCESSING;
+                else
+                    next_STATE = STATE_HORIZONTAL_SYNC;
+            end     
+            STATE_DATA_PROCESSING: begin
+                if(sig_done)
+                    next_STATE = STATE_IDLE;
+                else begin
+                    if(column == IMAGE_WIDTH - 2)
+                        next_STATE = STATE_HORIZONTAL_SYNC;
+                    else
+                        next_STATE = STATE_DATA_PROCESSING;
+                end
+            end
+        endcase
+    end
 
 
 
