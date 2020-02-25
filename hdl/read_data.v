@@ -9,12 +9,12 @@ module read_data#(
     (
         clk,                                                
         reset,                                  
-        data_R_Even,                
-        data_G_Even,                
-        data_B_Even,                
-        data_R_Odd,             
-        data_G_Odd,             
-        data_B_Odd,
+        data_Red_Even,                
+        data_Green_Even,                
+        data_Blue_Even,                
+        data_Red_Odd,             
+        data_Green_Odd,             
+        data_Blue_Odd,
         vertical_Pulse,                         
         horizontal_Pulse,                           
         done_Flag                   
@@ -24,13 +24,13 @@ module read_data#(
     // Active low                                       
     input reset;
     // 8 bit Red, Green, Blue  data (Even)                                  
-    output reg [7:0]  data_R_Even;              
-    output reg [7:0]  data_G_Even;          
-    output reg [7:0]  data_B_Even;
+    output reg [7:0]  data_Red_Even;              
+    output reg [7:0]  data_Green_Even;          
+    output reg [7:0]  data_Blue_Even;
     // 8 bit Red, Green, Blue  data (Odd)                       
-    output reg [7:0]  data_R_Odd;               
-    output reg [7:0]  data_G_Odd;               
-    output reg [7:0]  data_B_Odd;
+    output reg [7:0]  data_Red_Odd;               
+    output reg [7:0]  data_Green_Odd;               
+    output reg [7:0]  data_Blue_Odd;
     // Vertical synchronous pulse
     output vertical_Pulse;  
     // Horizontal synchronous pulse                         
