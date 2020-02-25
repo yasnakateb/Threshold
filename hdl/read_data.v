@@ -1,3 +1,10 @@
+/*
+ * Verilog cannot read bitmap format file. So we will convert the image in 
+ * bitmap format into hexadecimal file
+ */
+
+
+
 module read_data#(
     parameter 
         INPUT_FILE  = "input_picture.hex",  
@@ -21,6 +28,12 @@ module read_data#(
     input clk;
     // Active low                                       
     input reset;
+
+    /*
+     * We Use two pixels at the same time because each data has three different components 
+     * which is red, green and blue.
+     */  
+
     // 8 bit Red, Green, Blue  data (Even)                                  
     output reg [7:0]  data_Red_Even;              
     output reg [7:0]  data_Green_Even;          
@@ -135,6 +148,10 @@ module read_data#(
         end
     end
 
+    /*
+     * This is the FSM machine to create vertical synchronizing pulse and the
+     * horizontal synchronizing pulse.
+     */
 
     always @(*) begin
         case(current_STATE)
@@ -210,7 +227,6 @@ module read_data#(
     end
 
 
-    
     always@(posedge clk, negedge reset) begin
         if(~reset) begin
             row <= 0;
@@ -244,6 +260,11 @@ module read_data#(
     assign vertical_Pulse = sig_Ctrl_Vsync;
     assign sig_done = (data_Counter == 196607)? 1'b1: 1'b0; 
 
+    /*
+     * When the data is valid, it means that the horizontal synchronizing 
+     * pulse is one we start to process the image.
+     */
+
     always @(*) begin
         horizontal_Pulse = 1'b0;
         data_Red_Even = 0;
@@ -255,6 +276,11 @@ module read_data#(
 
         if(sig_Ctrl_Data) begin
             horizontal_Pulse = 1'b1;
+
+            /*
+             * We convert the data from RGB data to gray-scale and then we will 
+             * do the threshold operation.
+             */
             value1 = (storage_Red[IMAGE_WIDTH * row + column]+
                       storage_Green[IMAGE_WIDTH * row + column]+
                       storage_Blue[IMAGE_WIDTH * row + column])/3;
@@ -272,6 +298,13 @@ module read_data#(
             value2 = (storage_Red[IMAGE_WIDTH * row + column + 1]+
                       storage_Green[IMAGE_WIDTH * row + column + 1]+
                       storage_Blue[IMAGE_WIDTH * row + column + 1])/3;
+
+            /*
+             * There are two values: black and white. 
+             * If it is higher than the threshold, we make it white. 
+             * If it is lesser than the threshold, we make it black.
+             */
+
             if(value1 > THRESHOLD) begin
                 data_Red_Odd = 255;
                 data_Green_Odd = 255;
