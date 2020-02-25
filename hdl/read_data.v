@@ -213,5 +213,43 @@ module read_data#(
     end
 
 
+    
+    always@(posedge clk, negedge reset) begin
+        if(~reset) begin
+            row <= 0;
+            column <= 0;
+        end
+        else begin
+            if(sig_Ctrl_Data) begin
+                if(column == IMAGE_WIDTH - 2) begin
+                    row <= row + 1;
+                end
+                if(column == IMAGE_WIDTH - 2) 
+                    column <= 0;
+                else 
+                    column <= column + 2; 
+            end
+        end
+    end
+
+    
+    always@(posedge clk, negedge reset) begin
+        if(~reset) begin
+            data_Counter <= 0;
+        end
+        else begin
+            if(sig_Ctrl_Data)
+                data_Counter <= data_Counter + 1;
+        end
+    end
+
+
+    assign vertical_Pulse = sig_Ctrl_Vsync;
+    assign sig_done = (data_Counter == 196607)? 1'b1: 1'b0; 
+
+
+    
+
+
 
 endmodule                   
