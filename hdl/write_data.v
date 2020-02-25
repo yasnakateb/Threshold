@@ -43,6 +43,12 @@ module write_data
     parameter BMP_HEADER_NUMBER = 54; 
     
     // BMP header
-    integer bmp_Header [0 : BMP_HEADER_NUMBER - 1];                                            
+    integer bmp_Header [0 : BMP_HEADER_NUMBER - 1];        
+
+    // Counting variables
+    integer i;
+    integer k, l, m;
+    integer fd; 
+                                        
 
 endmodule
