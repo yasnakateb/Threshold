@@ -244,7 +244,45 @@ module read_data#(
     assign vertical_Pulse = sig_Ctrl_Vsync;
     assign sig_done = (data_Counter == 196607)? 1'b1: 1'b0; 
 
+    always @(*) begin
+        horizontal_Pulse = 1'b0;
+        data_Red_Even = 0;
+        data_Green_Even = 0;
+        data_Blue_Even = 0;                                       
+        data_Red_Odd = 0;
+        data_Green_Odd = 0;
+        data_Blue_Odd = 0;  
 
-    
+        if(sig_Ctrl_Data) begin
+            horizontal_Pulse = 1'b1;
+            value1 = (storage_Red[IMAGE_WIDTH * row + column]+
+                      storage_Green[IMAGE_WIDTH * row + column]+
+                      storage_Blue[IMAGE_WIDTH * row + column])/3;
+
+            if(value1 > THRESHOLD) begin
+                data_Red_Even = 255;
+                data_Green_Even = 255;
+                data_Blue_Even = 255;
+            end
+            else begin
+                data_Red_Even = 0;
+                data_Green_Even = 0;
+                data_Blue_Even = 0;
+            end
+            value2 = (storage_Red[IMAGE_WIDTH * row + column + 1]+
+                      storage_Green[IMAGE_WIDTH * row + column + 1]+
+                      storage_Blue[IMAGE_WIDTH * row + column + 1])/3;
+            if(value1 > THRESHOLD) begin
+                data_Red_Odd = 255;
+                data_Green_Odd = 255;
+                data_Blue_Odd = 255;
+            end
+            else begin
+                data_Red_Odd = 0;
+                data_Green_Odd = 0;
+                data_Blue_Odd = 0;
+            end     
+        end
+    end
 
 endmodule                   
