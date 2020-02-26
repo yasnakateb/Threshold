@@ -117,6 +117,33 @@ module write_data
     end
 
 
+    // Counting data 
+    always@(posedge clk, negedge reset)
+    begin
+        if(~reset) begin
+            data_Counter <= 0;
+        end
+        else begin
+            if(horizontal_Pulse)
+                data_Counter <= data_Counter + 1; 
+        end
+    end
+
+
+    assign done_Flag = (data_Counter == 196607)? 1'b1: 1'b0; 
+
+
+    always@(posedge clk, negedge reset)
+    begin
+        if(~reset) begin
+            sig_Write_Done <= 0;
+        end
+        else begin
+            sig_Write_Done <= done_Flag;
+        end
+    end
+
+
 
 endmodule                           
 
