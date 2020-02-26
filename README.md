@@ -26,7 +26,7 @@ components which are red, green and blue. Average method is the most simple one 
 ![](ScreenShots/rgb.png)
 
 ## Dependencies
----
+
 This project needs [Xlinx ISE](https://en.wikipedia.org/wiki/Xilinx_ISE).
 
 ### Building on Windows 10
