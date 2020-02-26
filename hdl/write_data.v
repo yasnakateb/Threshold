@@ -144,6 +144,28 @@ module write_data
     end
 
 
+    initial begin
+        fd = $fopen(OUTPUT_FILE, "wb+");
+    end
+
+    
+    always@(sig_Write_Done) begin 
+        if(sig_Write_Done == 1'b1) begin
+
+            for(i = 0; i < BMP_HEADER_NUMBER; i = i + 1) begin
+                $fwrite(fd, "%c", bmp_Header[i][7:0]); 
+            end
+            
+            for(i = 0; i < IMAGE_WIDTH * IMAGE_HEIGHT * 3; i = i + 6) begin
+                $fwrite(fd, "%c", output_Bmp[i  ][7:0]);
+                $fwrite(fd, "%c", output_Bmp[i+1][7:0]);
+                $fwrite(fd, "%c", output_Bmp[i+2][7:0]);
+                $fwrite(fd, "%c", output_Bmp[i+3][7:0]);
+                $fwrite(fd, "%c", output_Bmp[i+4][7:0]);
+                $fwrite(fd, "%c", output_Bmp[i+5][7:0]);
+            end
+        end
+    end
 
 endmodule                           
 
