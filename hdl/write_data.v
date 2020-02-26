@@ -20,7 +20,7 @@ module write_data
         data_Blue_Odd,
         sig_Write_Done
     ); 
-
+   
     input clk; 
     // Active low                                            
     input reset; 
@@ -30,27 +30,27 @@ module write_data
      * We can write the data into the image.
      */                                          
     input horizontal_Pulse;
-       
+
     /*
-     * We Use two pixels at the same time because each data has three different components 
+     * We use two pixels at the same time because each data has three different components 
      * which is red, green and blue.
      */  
 
-    // 8 bit Red, Green, Blue  data (Even)                                                                         
-    input  data_Red_Even;              
-    input [7:0]  data_Green_Even;          
-    input [7:0]  data_Blue_Even;
-    // 8 bit Red, Green, Blue  data (Odd)                       
-    input [7:0]  data_Red_Odd;               
-    input [7:0]  data_Green_Odd;               
-    input [7:0]  data_Blue_Odd;
-
-    output reg sig_Write_Done;
+    // 8 bit Red, Green, Blue  data (Even)                         
+    input [7:0]  data_Red_Even;                     
+    input [7:0]  data_Green_Even;                     
+    input [7:0]  data_Blue_Even;  
+    // 8 bit Red, Green, Blue  data (Odd)   
+    input [7:0]  data_Red_Odd;                     
+    input [7:0]  data_Green_Odd;                     
+    input [7:0]  data_Blue_Odd;      
+    
+    output  reg  sig_Write_Done;
 
     
     // Define the number of bytes of the BMP header
-    parameter BMP_HEADER_NUMBER = 54; 
-    
+    parameter BMP_HEADER_NUMBER = 54;
+
     // BMP header
     integer bmp_Header [0 : BMP_HEADER_NUMBER - 1];        
 
@@ -58,12 +58,12 @@ module write_data
     integer i;
     integer k, l, m;
     integer fd; 
-
-    wire done_Flag;                                                 
     
+    wire done_Flag;     
+
     // Temporary memory 
     reg [7:0] output_Bmp  [0 : IMAGE_WIDTH * IMAGE_HEIGHT * 3 - 1];        
-    reg [18:0] data_Counter; 
+    reg [18:0] data_Counter;                        
 
     /*
      * If you you change the image size, you'll have to change the header!
@@ -90,7 +90,7 @@ module write_data
     end
 
 
-    // Row and Column counting for temporary memory of image 
+    // Row and Column counting for temporary memory of image  
     always@(posedge clk, negedge reset) begin
         if(!reset) begin
             l <= 0;
@@ -98,16 +98,16 @@ module write_data
         end 
         else begin
             if(horizontal_Pulse) begin
-                if(m == IMAGE_WIDTH/2-1) begin
+                if(m == IMAGE_WIDTH / 2 - 1) begin
                     m <= 0;
                     l <= l + 1; 
-                end else begin
+                end 
+                else begin
                     m <= m + 1; 
                 end
             end
         end
     end
-
 
 
     always@(posedge clk, negedge reset) begin
@@ -117,12 +117,12 @@ module write_data
             end
         end else begin
             if(horizontal_Pulse) begin
-                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 2] <= data_Red_Even;
-                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 1] <= data_Green_Even;
-                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m    ] <= data_Blue_Even;
-                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 5] <= data_Red_Odd;
-                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 4] <= data_Green_Odd;
-                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 3] <= data_Blue_Odd;
+                output_Bmp[IMAGE_WIDTH *3 * (IMAGE_HEIGHT - l - 1) +6 * m + 2] <= data_Red_Even;
+                output_Bmp[IMAGE_WIDTH *3 * (IMAGE_HEIGHT - l - 1) +6 * m + 1] <= data_Green_Even;
+                output_Bmp[IMAGE_WIDTH *3 * (IMAGE_HEIGHT - l - 1) +6 * m    ] <= data_Blue_Even;
+                output_Bmp[IMAGE_WIDTH *3 * (IMAGE_HEIGHT - l - 1) +6 * m + 5] <= data_Red_Odd;
+                output_Bmp[IMAGE_WIDTH *3 * (IMAGE_HEIGHT - l - 1) +6 * m + 4] <= data_Green_Odd;
+                output_Bmp[IMAGE_WIDTH *3 * (IMAGE_HEIGHT - l - 1) +6 * m + 3] <= data_Blue_Odd;
             end
         end
     end
@@ -130,29 +130,29 @@ module write_data
 
     // Counting data 
     always@(posedge clk, negedge reset)
-    begin
-        if(~reset) begin
-            data_Counter <= 0;
+        begin
+            if(~reset) begin
+                data_Counter <= 0;
+            end
+            else begin
+                if(horizontal_Pulse)
+                    data_Counter <= data_Counter + 1; 
+            end
         end
-        else begin
-            if(horizontal_Pulse)
-                data_Counter <= data_Counter + 1; 
-        end
-    end
-
+    
 
     assign done_Flag = (data_Counter == 196607)? 1'b1: 1'b0; 
 
 
     always@(posedge clk, negedge reset)
-    begin
-        if(~reset) begin
-            sig_Write_Done <= 0;
+        begin
+            if(~reset) begin
+                sig_Write_Done <= 0;
+            end
+            else begin
+                sig_Write_Done <= done_Flag;
+            end
         end
-        else begin
-            sig_Write_Done <= done_Flag;
-        end
-    end
 
 
     initial begin
@@ -168,7 +168,7 @@ module write_data
             for(i = 0; i < BMP_HEADER_NUMBER; i = i + 1) begin
                 $fwrite(fd, "%c", bmp_Header[i][7:0]); 
             end
-            
+
             for(i = 0; i < IMAGE_WIDTH * IMAGE_HEIGHT * 3; i = i + 6) begin
                 $fwrite(fd, "%c", output_Bmp[i  ][7:0]);
                 $fwrite(fd, "%c", output_Bmp[i+1][7:0]);
@@ -180,4 +180,4 @@ module write_data
         end
     end
 
-endmodule                           
+endmodule
