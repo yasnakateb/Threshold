@@ -1,3 +1,7 @@
+/*
+ * Write the image (the processed image) into a bitmap image
+ */
+
 module write_data
     #(parameter 
         OUTPUT_FILE  = "output_picture.bmp",                        
@@ -20,7 +24,11 @@ module write_data
     input clk; 
     // Active low                                            
     input reset; 
-    // Horizontal synchronous pulse                                          
+    // Horizontal synchronous pulse
+    /*
+     * When this this pulse is high, it means that the data is valid.
+     * We can write the data into the image.
+     */                                          
     input horizontal_Pulse;
        
     /*
@@ -39,7 +47,8 @@ module write_data
 
     output reg sig_Write_Done;
 
-    // Header for bmp image
+    
+    // Define the number of bytes of the BMP header
     parameter BMP_HEADER_NUMBER = 54; 
     
     // BMP header
@@ -56,7 +65,9 @@ module write_data
     reg [7:0] output_Bmp  [0 : IMAGE_WIDTH * IMAGE_HEIGHT * 3 - 1];        
     reg [18:0] data_Counter; 
 
-
+    /*
+     * If you you change the image size, you'll have to change the header!
+     */
     initial begin
         bmp_Header[0]  = 66;bmp_Header[18] =  0; bmp_Header[36] = 0; 
         bmp_Header[1]  = 77;bmp_Header[19] =  3; bmp_Header[37] = 0; 
@@ -148,7 +159,9 @@ module write_data
         fd = $fopen(OUTPUT_FILE, "wb+");
     end
 
-    
+    /*
+     * After processing, we  will write the image into the the image file
+     */
     always@(sig_Write_Done) begin 
         if(sig_Write_Done == 1'b1) begin
 
@@ -168,15 +181,3 @@ module write_data
     end
 
 endmodule                           
-
-
-
-
-
-
-
-
-
-
-
-
