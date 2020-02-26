@@ -96,7 +96,28 @@ module write_data
             end
         end
     end
-    
+
+
+
+    always@(posedge clk, negedge reset) begin
+        if(!reset) begin
+            for(k = 0; k < IMAGE_WIDTH * IMAGE_HEIGHT * 3; k = k + 1) begin
+                output_Bmp[k] <= 0;
+            end
+        end else begin
+            if(horizontal_Pulse) begin
+                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 2] <= data_Red_Even;
+                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 1] <= data_Green_Even;
+                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m    ] <= data_Blue_Even;
+                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 5] <= data_Red_Odd;
+                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 4] <= data_Green_Odd;
+                output_Bmp[IMAGE_WIDTH * 3 * (IMAGE_HEIGHT - l - 1) + 6 * m + 3] <= data_Blue_Odd;
+            end
+        end
+    end
+
+
+
 endmodule                           
 
 
