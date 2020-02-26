@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 
 module TestBench_1;
-
 	// Inputs
 	reg clk;
 	reg reset;
@@ -20,8 +19,5 @@ module TestBench_1;
 		reset     = 0;
 		#25 reset = 1;
 	end
-
-	
-      
 endmodule
 
