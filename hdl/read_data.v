@@ -61,7 +61,7 @@ module read_data#(
     // Delay between Horizontal synchronous pulses                  
     parameter HORIZONTAL_SYNC_DELAY = 160;
     // Threshold value for Threshold operation                  
-    parameter THRESHOLD= 90 ;                      
+    parameter THRESHOLD = 90;                      
 
     reg sig_Start;  
     // Create start signal                              
