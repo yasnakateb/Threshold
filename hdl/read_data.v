@@ -1,7 +1,3 @@
-/*
- * Verilog cannot read bitmap format file. So we will convert the image in 
- * bitmap format into hexadecimal file
- */
 module read_data#(
     parameter 
         INPUT_FILE  = "input_picture.hex",  
@@ -76,7 +72,6 @@ module read_data#(
     reg [8:0] hsync_Counter;
     reg [18:0] data_Counter;        
 
-
     reg [31:0] memory_32_Bit [0:IMAGE_SIZE/4];  
     reg [7:0] memory_8_Bit [0:IMAGE_SIZE-1];    
 
@@ -103,7 +98,6 @@ module read_data#(
         $readmemh(INPUT_FILE, memory_8_Bit, 0, IMAGE_SIZE-1); 
     end
     
-
     always@(sig_Start) begin
         if(sig_Start == 1'b1) begin
             for(i = 0; i< IMAGE_WIDTH * IMAGE_HEIGHT * 3 ; i = i + 1) begin
@@ -120,7 +114,6 @@ module read_data#(
         end
     end
 
-
     always@(posedge clk, negedge reset) begin
         if(!reset) begin
             sig_Start <= 0;
@@ -134,7 +127,6 @@ module read_data#(
                 sig_Start <= 1'b0;
         end
     end
-
 
     always@(posedge clk, negedge reset) begin
         if(~reset) begin
@@ -183,7 +175,6 @@ module read_data#(
         endcase
     end
 
-
     always @(*) begin
         sig_Ctrl_Vsync = 0;
         sig_Ctrl_Hsync = 0;
@@ -204,7 +195,6 @@ module read_data#(
         endcase
     end
 
-    
     always@(posedge clk, negedge reset) begin
         if(~reset) begin
             vsync_Counter <= 0;
@@ -222,7 +212,6 @@ module read_data#(
                 hsync_Counter <= 0;
         end
     end
-
 
     always@(posedge clk, negedge reset) begin
         if(~reset) begin
@@ -242,7 +231,6 @@ module read_data#(
         end
     end
 
-    
     always@(posedge clk, negedge reset) begin
         if(~reset) begin
             data_Counter <= 0;
@@ -252,7 +240,6 @@ module read_data#(
                 data_Counter <= data_Counter + 1;
         end
     end
-
 
     assign vertical_Pulse = sig_Ctrl_Vsync;
     assign sig_done = (data_Counter == 196607)? 1'b1: 1'b0; 
@@ -314,5 +301,4 @@ module read_data#(
             end     
         end
     end
-
 endmodule                   

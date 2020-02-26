@@ -1,9 +1,3 @@
-// **************************************************
-// ***************** Todo *************************** 
-// **************************************************
-
-// Delete parameters from read_data and write_data 
-
 module Image_Processing
     #(parameter 
         INPUT_FILE  = "input_picture.hex", 
@@ -13,7 +7,7 @@ module Image_Processing
         clk,                                                
         reset                                
     );
-
+    
     input clk;
     input reset;
 
@@ -45,7 +39,6 @@ module Image_Processing
         .sig_done(enc_done)
     );
 
-
     write_data 
     #(.OUTPUT_FILE(OUTPUT_FILE))
     u_image_write
@@ -61,5 +54,4 @@ module Image_Processing
         .data_Blue_Odd(data_B1),
         .sig_Write_Done()
     );   
-
 endmodule
