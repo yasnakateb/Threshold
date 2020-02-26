@@ -302,7 +302,7 @@ module read_data#(
              * If it is lesser than the threshold, we make it black.
              */
 
-            if(value1 > THRESHOLD) begin
+            if(value2 > THRESHOLD) begin
                 data_Red_Odd = 255;
                 data_Green_Odd = 255;
                 data_Blue_Odd = 255;
