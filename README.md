@@ -1,4 +1,4 @@
-# 🏁 Threshold
+# 🏁 Image Segmentation System
 
 Image  segmentation  is  a  fundamental  process  in  many  image,  video,  and  computer  vision applications. It is often used to partition an image into separate regions. Threshold  technique  is  one  of  the  important  techniques  in  image  segmentation. We can divide the pixels in the image into two major groups, according to their gray-level. In this project, threshold operation is implemented in Verilog. 
 ## Threshold Operation
